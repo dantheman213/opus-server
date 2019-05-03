@@ -1,0 +1,12 @@
+{
+  "name": "opus-server",
+  "version": "0.0.1",
+  "description": "A lightweight HTTP audio server.",
+  "author": "Daniel Gillespie",
+  "scripts": {
+    "start": "node src/app"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
