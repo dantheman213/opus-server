@@ -1,12 +1,16 @@
-mongo:
-  image: mongo:4.0.9-xenial
+version: "3.7"
+services:
+  mongo:
+    image: mongo:4.0.9-xenial
 
-web:
-  build: .
-  environment:
-    PORT: 3000
-    ENV: development
-  links:
-    - mongo
-  ports:
-    - "3000:3000"
+  web:
+    build: .
+    environment:
+      PORT: 3000
+      ENV: development
+    links:
+      - mongo
+    ports:
+      - "3000:3000"
+    volumes:
+      - /media/opus:/media
