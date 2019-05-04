@@ -1,9 +1,11 @@
 version: "3.7"
 services:
   mongo:
+    container_name: opus-db
     image: mongo:4.0.9-xenial
 
   web:
+    container_name: opus-server
     build: .
     environment:
       PORT: 3000
@@ -12,5 +14,6 @@ services:
       - mongo
     ports:
       - "3000:3000"
+      - "9229:9229"
     volumes:
       - /media/opus:/media

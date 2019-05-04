@@ -4,11 +4,13 @@
   "description": "A lightweight HTTP audio server.",
   "author": "Daniel Gillespie",
   "scripts": {
-    "start": "node src/app"
+    "start": "node src/app",
+    "debug": "node --inspect-brk=0.0.0.0 src/app"
   },
   "dependencies": {
     "express": "^4.16.4",
     "mongoose": "^5.5.5",
+    "music-metadata": "^3.7.0",
     "ps-node": "^0.1.6",
     "recursive-readdir": "^2.2.2"
   }
