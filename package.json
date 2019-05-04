@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "^4.16.4",
+    "mongoose": "^5.5.5",
     "ps-node": "^0.1.6",
     "recursive-readdir": "^2.2.2"
   }
