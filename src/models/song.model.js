@@ -5,9 +5,15 @@ const songSchema = new Schema({
     title: String,
     artist: String,
     album: String,
+    duration: Number,
+    genre: String,
+    yearReleased: Number,
+    bitRate: Number,
+    encoder: String,
     path: String,
     createdAt: Date,
     updatedAt: Date
 });
 
-module.exports = songSchema;
+const SongModel = mongoose.model('Song', songSchema, 'songs');
+module.exports = SongModel;

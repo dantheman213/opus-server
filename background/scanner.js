@@ -1,14 +1,11 @@
 const mm = require('music-metadata');
 const recursive = require('recursive-readdir');
 const Database = require('../src/lib/database');
-const mongoose = require('mongoose');
-const songSchema = require('../src/schemas/song.schema');
+let songs;
 
 class Scanner {
     static async checkItem(mediaPath) {
-        const songs = mongoose.model('songs', songSchema);
-        const query = songs.where({ path: mediaPath });
-        const result = await query.findOne();
+        const result = await songs.findOne({ path: mediaPath });
         if (result) {
             console.log(`Skipping existing item ${mediaPath}`);
             result.updatedAt = new Date();
@@ -16,16 +13,33 @@ class Scanner {
         } else {
             console.log(`Adding ${mediaPath} to database...`);
             const metadata = await mm.parseFile(mediaPath);
-            console.log(metadata);
-            // const song = {
-            //     title:
-            // }
+            const song = new songs({
+                title: metadata.common.title || 'Untitled Song',
+                artist: metadata.common.albumartist || '',
+                album: metadata.common.album || '',
+                duration: metadata.format.duration || -1,
+                genre: metadata.common.genre[0] || '',
+                yearReleased: metadata.common.year || -1,
+                bitRate: metadata.format.bitrate || -1,
+                encoder: metadata.format.encoder || '',
+                path: mediaPath,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+
+            try {
+                await song.save();
+                console.log(`${song.title} saved into database successfully.`);
+            } catch (ex) {
+                console.log(ex);
+            }
         }
     }
 
     static async run() {
         const startTime = new Date();
         await Database.connect();
+        songs = Database.db.collection('songs');
 
         recursive('/media', async (err, files) => {
             const mediaFiles = files.filter(f => /^.*\.(wav|mp3|ogg|wma|aif|aiff|aifc|aac|flac|alac)$/.test(f.toLowerCase()));

@@ -3,6 +3,8 @@ services:
   mongo:
     container_name: opus-db
     image: mongo:4.0.9-xenial
+    ports:
+      - "27014:27014"
 
   web:
     container_name: opus-server

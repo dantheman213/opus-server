@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 module.exports = class Database {
     static async connect() {
+        mongoose.Promise = Promise;
+
         const result = await mongoose.createConnection('mongodb://mongo:27017/opus_db', {
             poolSize: 5,
             useNewUrlParser: true
@@ -12,6 +14,7 @@ module.exports = class Database {
             console.log(err);
             process.exit(1);
         } else {
+            Database.db = result;
             console.log('Connected to database successfully...!');
         }
     }
