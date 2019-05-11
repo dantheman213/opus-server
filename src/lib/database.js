@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = class Database {
     static async connect() {
-        mongoose.Promise = Promise;
+        mongoose.Promise = global.Promise;
 
         const result = await mongoose.createConnection('mongodb://mongo:27017/opus_db', {
             poolSize: 5,

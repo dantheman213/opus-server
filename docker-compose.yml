@@ -4,7 +4,7 @@ services:
     container_name: opus-db
     image: mongo:4.0.9-xenial
     ports:
-      - "27014:27014"
+      - "27017:27017"
 
   web:
     container_name: opus-server
@@ -18,4 +18,4 @@ services:
       - "3000:3000"
       - "9229:9229"
     volumes:
-      - /media/opus:/media
+      - ./media:/media
