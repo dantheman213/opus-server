@@ -1,9 +1,12 @@
 .DS_Store
 [Tt]humbs.db
 
-media/
-
-*.log
-node_modules/
-
 .idea/
+
+.gradle/
+gradle/
+gradlew*
+
+build/
+bin/
+logs/
