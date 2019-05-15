@@ -8,7 +8,7 @@ RUN wget -O /tmp/gradle.zip http://services.gradle.org/distributions/gradle-5.4.
     unzip /tmp/gradle.zip -d /opt && \
     mv /opt/gradle-5.4.1 /opt/gradle
 
-RUN /opt/gradle/bin/gradle fatJar
+RUN /opt/gradle/bin/gradle build
 
 # --
 

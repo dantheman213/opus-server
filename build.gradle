@@ -28,12 +28,3 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'server.Application'
-    }
-    baseName = 'opus-server-FINAL'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
