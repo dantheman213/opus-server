@@ -1,19 +1,20 @@
-FROM openjdk:12 AS builder
+FROM openjdk:12 AS build
 
-WORKDIR /opt/app
+RUN mkdir -p /workspace
+WORKDIR /workspace
 COPY . .
+
+RUN wget -O /tmp/gradle.zip http://services.gradle.org/distributions/gradle-5.4.1-bin.zip && \
+    unzip /tmp/gradle.zip -d /opt && \
+    mv /opt/gradle-5.4.1 /opt/gradle
+
+RUN /opt/gradle/bin/gradle fatJar
+
+# --
 
 FROM openjdk:12 AS deploy
 
-EXPOSE 80
-EXPOSE 8000
-EXPOSE 8080
-
-ENV DOCKER true
-
 RUN mkdir -p /opt/app
-WORKDIR /opt/app
+COPY --from=build /workspace/build/libs/app.jar /opt/server/app.jar
 
-COPY --from=builder /opt/app/build/libs/app.jar ./app.jar
-
-ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/server/app.jar"]
