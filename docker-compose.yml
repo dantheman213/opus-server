@@ -1,0 +1,9 @@
+mongo:
+  image: mongo:4.0.9-xenial
+
+server:
+  build: .
+  links:
+    - mongo
+  ports:
+    - "8080:8080"
