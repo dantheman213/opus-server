@@ -1,0 +1,3 @@
+server:
+  volumes:
+    - C:/opus:/opt/media

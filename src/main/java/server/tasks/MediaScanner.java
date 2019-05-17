@@ -1,7 +1,7 @@
 package server.tasks;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.tika.parser.mp3.Mp3Parser;
+import org.apache.tika.parser.audio.AudioParser;
 import org.springframework.scheduling.annotation.Async;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +31,7 @@ public class MediaScanner {
                 InputStream input = new FileInputStream(new File(file.toString()));
                 ContentHandler handler = new DefaultHandler();
                 metadata = new Metadata();
-                Parser parser = new Mp3Parser();
+                Parser parser = new AudioParser();
                 ParseContext parseCtx = new ParseContext();
                 parser.parse(input, handler, metadata, parseCtx);
                 input.close();
@@ -40,8 +40,6 @@ public class MediaScanner {
             }
 
             if(metadata != null) {
-                // Retrieve the necessary info from metadata
-                // Names - title, xmpDM:artist etc. - mentioned below may differ based
                 System.out.println("----------------------------------------------");
                 System.out.println("Title: " + metadata.get("title"));
                 System.out.println("Artists: " + metadata.get("xmpDM:artist"));
