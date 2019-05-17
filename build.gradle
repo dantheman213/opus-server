@@ -27,4 +27,13 @@ targetCompatibility = 1.12
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-core
+    compile group: 'org.apache.tika', name: 'tika-core', version: '1.20'
+
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-parsers
+    compile group: 'org.apache.tika', name: 'tika-parsers', version: '1.20'
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
