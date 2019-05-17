@@ -17,7 +17,7 @@ public class MediaScanner {
     @Async
     public void scan() {
         Collection files = FileUtils.listFiles(
-                new File("/media"),
+                new File("/opt/media"),
                 new String[] { "wav", "mp3", "ogg", "wma", "aif", "aiff", "aifc", "aac", "flac", "alac" },
                 true
         );

@@ -17,4 +17,5 @@ FROM openjdk:12 AS deploy
 RUN mkdir -p /opt/app
 COPY --from=build /workspace/build/libs/opus-server-FINAL.jar /opt/app/opus-server.jar
 
+VOLUME ["/opt/media"]
 ENTRYPOINT ["java", "-jar", "/opt/app/opus-server.jar"]

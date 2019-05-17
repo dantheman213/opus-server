@@ -6,4 +6,8 @@ server:
   links:
     - mongo
   ports:
-    - "8080:8080"
+    - 8080:8080
+  volumes:
+    - /opt/media:/opt/media
+    # Enable below only for Windows. If enabled, comment the line above
+    # - C:/opus:/opt/media 
