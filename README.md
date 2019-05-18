@@ -32,7 +32,7 @@ A lightweight HTTP audio server.
 
 ##### Windows
 
-    docker-compose -f docker-compose.yml -f docker-compose.windows.yml up --build
+    docker-compose -f docker-compose.yml -f docker-compose.windows.yml up --build -d
 
 ## Development
 
