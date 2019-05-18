@@ -1,3 +1,5 @@
-server:
-  volumes:
-    - C:/opus:/opt/media
+version: '3'
+services:
+  server:
+    volumes:
+      - C:/opus:/opt/media

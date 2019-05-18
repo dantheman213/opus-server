@@ -1,11 +1,15 @@
-mongo:
-  image: mongo:4.0.9-xenial
+version: '3'
+services:
+  mongo:
+    image: mongo:4.0.9-xenial
+    restart: always
 
-server:
-  build: .
-  links:
-    - mongo
-  ports:
-    - 8080:8080
-  volumes:
-    - /opt/media:/opt/media
+  server:
+    build: .
+    links:
+      - mongo
+    ports:
+      - 8080:8080
+    volumes:
+      - /opt/media:/opt/media
+    restart: always
