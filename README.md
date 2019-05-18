@@ -26,7 +26,13 @@ A lightweight HTTP audio server.
 
 ### Running Application
 
-// TODO
+##### Linux / OSX
+
+    docker-compose --build -d
+
+##### Windows
+
+    docker-compose -f docker-compose.yml -f docker-compose.windows.yml up --build
 
 ## Development
 
@@ -47,7 +53,13 @@ in start-up/connection section to be set to port 8000.
 
 #### Start the application in debug mode
 
+##### Linux / OSX
+
     docker-compose -f docker-compose.yml -f docker-compose.debug.yml up --build
+
+##### Windows
+
+    docker-compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.windows.yml up --build
 
 #### Listen from your IDE
 
