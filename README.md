@@ -1,6 +1,6 @@
 # Opus Server
 
-A lightweight HTTP audio server.
+A lightweight HTTP audio management and streaming server for a private music library.
 
 ## Introduction
 
