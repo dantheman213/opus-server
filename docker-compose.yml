@@ -2,6 +2,8 @@ version: '3'
 services:
   mongo:
     image: mongo:4.0.9-xenial
+    ports:
+      - 27017:27017
     restart: "always"
 
   opus-server:

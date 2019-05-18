@@ -1,10 +1,14 @@
 package server.tasks;
 
+import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.parser.audio.AudioParser;
 import org.apache.tika.parser.mp3.Mp3Parser;
+import org.bson.Document;
 import org.springframework.scheduling.annotation.Async;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +19,8 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
+import server.lib.Database;
+import server.models.SongModel;
 
 public class MediaScanner {
     @Async
@@ -27,50 +33,57 @@ public class MediaScanner {
 
         System.out.println(String.format("Found %d media items.", files.size()));
 
+        var songCollection = Database.database.getCollection("songs");
+        Gson gson = new Gson();
+
         for (var file : files) {
-            String artist = "",
-                    album = "",
-                    composer = "",
-                    genre = "",
-                    title = "",
-                    year = "",
-                    bitrate = "";
-            String filePath = file.toString();
+            var song = new SongModel();
+            song.filePath = file.toString();
             Metadata metadata = new Metadata();
 
-            System.out.println(String.format("Processing file %s now...", filePath));
+            System.out.println(String.format("Processing file %s now...", song.filePath));
 
-            InputStream input = new FileInputStream(new File(filePath));
+            InputStream input = new FileInputStream(new File(song.filePath));
             ContentHandler handler = new DefaultHandler();
 
-            String mediaExtension = FilenameUtils.getExtension(filePath);
+            String mediaExtension = FilenameUtils.getExtension(song.filePath);
             if (mediaExtension.equals("mp3")) {
                 Parser parser = new Mp3Parser();
                 ParseContext parseCtx = new ParseContext();
                 parser.parse(input, handler, metadata, parseCtx);
 
                 if (metadata != null) {
-                    artist = metadata.get("xmpDM:artist");
-                    if (StringUtils.isEmpty(artist)) {
-                        artist = metadata.get("xmpDM:albumArtist");
+                    song.artist = metadata.get("xmpDM:artist");
+                    if (StringUtils.isEmpty(song.artist)) {
+                        song.artist = metadata.get("xmpDM:albumArtist");
                     }
-                    album = metadata.get("xmpDM:album");
-                    composer = metadata.get("xmpDM:composer");
-                    genre = metadata.get("xmpDM:genre");
-                    title = metadata.get("title");
+                    song.album = metadata.get("xmpDM:album");
+                    song.composer = metadata.get("xmpDM:composer");
+                    song.genre = metadata.get("xmpDM:genre");
+                    song.title = metadata.get("title");
+                    if (StringUtils.isEmpty(song.title)) {
+                        song.title = "Untitled Song";
+                    }
                 }
             }
 
             input.close();
 
-            System.out.print(String.format("Artist: %s\nAlbum: %s\nComposer: %s\nGenre: %s\nTitle: %s\nYear: %s\nBitrate: %s",
-                    artist,
-                    album,
-                    composer,
-                    genre,
-                    title,
-                    year,
-                    bitrate));
+            System.out.print(String.format("Artist: %s\nAlbum: %s\nComposer: %s\nGenre: %s\nTitle: %s\nYear: %s\nBitrate: %s\n",
+                    song.artist,
+                    song.album,
+                    song.composer,
+                    song.genre,
+                    song.title,
+                    song.year,
+                    song.bitrate));
+
+            var resultDocuments = songCollection.find(new Document("filePath", song.filePath));
+            if(resultDocuments.first() == null) {
+                Document newSongDocument = (Document) JSON.parse(gson.toJson(song));
+                songCollection.insertOne(newSongDocument);
+                System.out.println(String.format("Song %s has been added to database!", song.title));
+            }
         }
     }
 }
