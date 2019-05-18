@@ -2,9 +2,9 @@ version: '3'
 services:
   mongo:
     image: mongo:4.0.9-xenial
-    restart: always
+    restart: "always"
 
-  server:
+  opus-server:
     build: .
     links:
       - mongo
@@ -12,4 +12,4 @@ services:
       - 8080:8080
     volumes:
       - /opt/media:/opt/media
-    restart: always
+    restart: "always"

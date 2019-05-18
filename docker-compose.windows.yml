@@ -1,5 +1,5 @@
 version: '3'
 services:
-  server:
+  opus-server:
     volumes:
       - C:/opus:/opt/media

@@ -15,7 +15,7 @@ public class MediaController {
     }
 
     @RequestMapping("/media/refresh")
-    public String refresh() {
+    public String refresh() throws Exception {
         MediaScanner scanner = new MediaScanner();
         scanner.scan();
 
