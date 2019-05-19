@@ -1,11 +1,12 @@
 package server.controllers;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import server.models.SongModel;
+import server.services.SongService;
 import server.tasks.MediaScanner;
 
 @RestController
@@ -17,8 +18,9 @@ public class MediaController {
     }
 
     @RequestMapping("/media/songs")
-    public String getAllSongs() throws Exception {
-        return "TODO";
+    public List<SongModel> getAllSongs() throws Exception {
+        var service = new SongService();
+        return service.getAllSongs();
     }
 
     @RequestMapping("/media/songs/play/{id}")

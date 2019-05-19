@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SongModel {
-    public ObjectId _id;
+    public String _id;
     public String artist;
     public String album;
     public String composer;

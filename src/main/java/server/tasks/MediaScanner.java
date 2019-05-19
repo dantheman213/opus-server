@@ -1,19 +1,15 @@
 package server.tasks;
 
 import com.google.gson.Gson;
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tika.parser.audio.AudioParser;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.bson.Document;
 import org.springframework.scheduling.annotation.Async;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
