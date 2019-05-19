@@ -98,6 +98,9 @@ public class MediaScanner {
                 } else {
                     var existingSong = resultDocuments.first();
                     existingSong.put("updatedAt", new Date());
+
+                    // TODO: Check for metadata updates and if so update database with new values.
+
                     songCollection.replaceOne(new Document("filePath", song.filePath), existingSong);
                     System.out.println(String.format("Song %s has been skipped!", song.title));
                 }
