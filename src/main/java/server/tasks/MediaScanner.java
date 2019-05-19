@@ -102,6 +102,8 @@ public class MediaScanner {
                     System.out.println(String.format("Song %s has been skipped!", song.title));
                 }
             }
+
+            // TODO: Use updatedAt field to see which items no longer exist and remove them from database.
         } catch (Exception ex) {
             ex.printStackTrace();
         }
