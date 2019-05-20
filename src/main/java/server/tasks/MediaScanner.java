@@ -40,7 +40,7 @@ public class MediaScanner {
 
             System.out.println(String.format("Found %d media items.", files.size()));
 
-            var songCollection = Database.database.getCollection("songs");
+            var songCollection = Database.database.getCollection("songs", SongModel.class);
             Gson gson = new Gson();
 
             for (var file : files) {
@@ -89,12 +89,11 @@ public class MediaScanner {
 
                 var resultDocuments = songCollection.find(new Document("filePath", song.filePath));
                 if(resultDocuments.first() == null) {
-                    Document newSongDocument = Document.parse(gson.toJson(song));
-                    songCollection.insertOne(newSongDocument);
+                    songCollection.insertOne(song);
                     System.out.println(String.format("Song %s has been added to database!", song.title));
                 } else {
                     var existingSong = resultDocuments.first();
-                    existingSong.put("updatedAt", new Date());
+                    existingSong.updatedAt = new Date();
 
                     // TODO: Check for metadata updates and if so update database with new values.
 

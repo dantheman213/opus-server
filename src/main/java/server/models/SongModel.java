@@ -1,12 +1,13 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SongModel {
-    public String _id;
+    public ObjectId _id;
     public String artist;
     public String album;
     public String composer;
