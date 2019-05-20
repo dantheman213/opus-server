@@ -1,12 +1,13 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SongModel {
+    @JsonSerialize(using = ToStringSerializer.class)
     public ObjectId _id;
     public String artist;
     public String album;
