@@ -2,4 +2,4 @@ version: '3'
 services:
   opus-server:
     volumes:
-      - C:/opus:/opt/media
+      - C:/opus/media:/opt/media
