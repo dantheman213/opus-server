@@ -44,5 +44,4 @@ FROM prefab AS deploy
 COPY --from=build /workspace/build/libs/opus-server-FINAL.jar /opt/app/opus-server.jar
 VOLUME ["/opt/media"]
 
-RUN touch /var/log/test
 ENTRYPOINT [ "java", "-jar", "/opt/app/opus-server.jar" ]
