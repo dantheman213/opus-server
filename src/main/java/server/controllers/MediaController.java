@@ -35,4 +35,10 @@ public class MediaController {
 
         return "ok";
     }
+
+    @RequestMapping("/media/import/youtube/playlist/{id}")
+    public boolean importYouTubePlaylist(@PathVariable String id) throws Exception {
+
+        return false;
+    }
 }
