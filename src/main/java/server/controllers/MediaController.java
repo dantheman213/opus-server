@@ -1,5 +1,9 @@
 package server.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import server.models.SongModel;
 import server.services.SongService;
 import server.tasks.MediaScanner;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class MediaController {
@@ -24,8 +30,34 @@ public class MediaController {
     }
 
     @RequestMapping("/media/songs/play/{id}")
-    public String play(@PathVariable String id) throws Exception {
-        return "TODO" + id;
+    public void playSongById(@PathVariable String id, HttpServletResponse response) throws Exception {
+        var service = new SongService();
+        var song = service.getSongById(id);
+        File file = new File(song.filePath);
+        FileInputStream fileStream;
+        byte[] buffer = null;
+
+        try {
+            fileStream = new FileInputStream(file);
+            buffer = new byte[fileStream.available()];
+            fileStream.read(buffer);
+            fileStream.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            // do nothing
+        }
+
+        // TODO detect media type based on file extension
+        response.setContentType("audio/mpeg");
+
+        try{
+            response.getOutputStream().write(buffer);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @RequestMapping("/media/refresh")

@@ -1,6 +1,8 @@
 package server.services;
 
 import com.mongodb.client.MongoCollection;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import server.lib.Database;
 import server.models.SongModel;
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongService {
-    MongoCollection<SongModel> songCollection;
+    private MongoCollection<SongModel> songCollection;
 
     public SongService() {
         songCollection = Database.database.getCollection("songs", SongModel.class);
@@ -21,5 +23,9 @@ public class SongService {
         }
 
         return results;
+    }
+
+    public SongModel getSongById(String id) {
+        return songCollection.find(new Document("_id", new ObjectId(id))).first();
     }
 }
