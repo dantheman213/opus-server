@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Date;
 
@@ -64,12 +65,15 @@ public class MediaScanner {
                         if (StringUtils.isEmpty(song.artist)) {
                             song.artist = metadata.get("xmpDM:albumArtist");
                         }
+                        if (StringUtils.isEmpty(song.artist)) {
+                            song.artist = metadata.get("xmpDM:contributingArtist");
+                        }
                         song.album = metadata.get("xmpDM:album");
                         song.composer = metadata.get("xmpDM:composer");
                         song.genre = metadata.get("xmpDM:genre");
                         song.title = metadata.get("title");
                         if (StringUtils.isEmpty(song.title)) {
-                            song.title = "Untitled Song";
+                            song.title = FilenameUtils.removeExtension(Paths.get(song.filePath).getFileName().toString());
                         }
                     }
                 }
