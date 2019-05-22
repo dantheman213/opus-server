@@ -1,16 +1,8 @@
 # Opus Server
 
-A lightweight HTTP audio management and streaming server for a private music library.
+A powerful HTTP audio management and streaming server for your private music library.
 
 ## Introduction
-
-// TODO
-
-## Goals
-
-// TODO
-
-## Related Applications
 
 // TODO
 
@@ -65,10 +57,14 @@ in start-up/connection section to be set to port 8000.
 
 Start the debug profile here and it should listen to your breakpoints after the docker image has been built and is running.
 
+## Goals
+
+// TODO
+
 ## Contributing
 
 // TODO
 
-## Author
+## Related Applications
 
 // TODO
