@@ -11,8 +11,13 @@ public class Application {
 
     public static void main(String[] args) {
         var database = new Database();
-        var scanner = new MediaScanner();
-        scanner.scan();
+
+        new Thread(new Runnable() {
+            public void run() {
+                var scanner = new MediaScanner();
+                scanner.scan();
+            }
+        }).start();
 
         SpringApplication.run(Application.class, args);
     }
