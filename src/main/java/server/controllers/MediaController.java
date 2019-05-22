@@ -18,12 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class MediaController {
-
-    @RequestMapping("/media")
-    public String index() {
-        return "hello world";
-    }
-
     @RequestMapping("/media/songs")
     public List<SongModel> getAllSongs() throws Exception {
         var service = new SongService();
@@ -71,6 +65,7 @@ public class MediaController {
 
     @RequestMapping("/media/import/youtube/playlist/{id}")
     public String importYouTubePlaylist(@PathVariable String id) throws Exception {
+        // TODO: Check if songs already exist
         new Thread(new Runnable() {
             public void run() {
                 var service = new ImportService();
@@ -78,11 +73,12 @@ public class MediaController {
             }
         }).start();
 
-        return "ok";
+        return "ok. in queue.";
     }
 
     @RequestMapping("/media/import/youtube/video/{id}")
     public String importYouTubeVideo(@PathVariable String id) throws Exception {
+        // TODO: Check if songs already exist
         new Thread(new Runnable() {
             public void run() {
                 var service = new ImportService();
@@ -90,6 +86,6 @@ public class MediaController {
             }
         }).start();
 
-        return "ok";
+        return "ok. in queue.";
     }
 }
