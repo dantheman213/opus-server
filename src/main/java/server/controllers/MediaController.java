@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.models.SongModel;
+import server.services.ImportService;
 import server.services.SongService;
 import server.tasks.MediaScanner;
 
@@ -69,8 +70,18 @@ public class MediaController {
     }
 
     @RequestMapping("/media/import/youtube/playlist/{id}")
-    public boolean importYouTubePlaylist(@PathVariable String id) throws Exception {
+    public String importYouTubePlaylist(@PathVariable String id) throws Exception {
+        var service = new ImportService();
+        service.importYoutubePlaylist(id);
 
-        return false;
+        return "ok";
+    }
+
+    @RequestMapping("/media/import/youtube/video/{id}")
+    public String importYouTubeVideo(@PathVariable String id) throws Exception {
+        var service = new ImportService();
+        service.importYoutubeVideo(id);
+
+        return "ok";
     }
 }

@@ -14,6 +14,8 @@ ENV PATH "$PATH:$JAVA_HOME/bin"
 # Install Python 3 for youtube-dl
 RUN apt-get install -y python3 && \
     ln -s /usr/bin/python3 /usr/bin/python
+# https://github.com/docker-library/python/issues/13
+ENV LANG C.UTF-8
 
 # Install youtube-dl
 RUN wget -O /usr/bin/youtube-dl https://yt-dl.org/downloads/latest/youtube-dl && \
@@ -42,6 +44,7 @@ RUN /opt/gradle/bin/gradle build
 FROM prefab AS deploy
 
 COPY --from=build /workspace/build/libs/opus-server-FINAL.jar /opt/app/opus-server.jar
+RUN mkdir -p /opt/staging
 VOLUME ["/opt/media"]
 
 ENTRYPOINT [ "java", "-jar", "/opt/app/opus-server.jar" ]
