@@ -25,7 +25,7 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 
 # Add a user for Chrome application (required)
 RUN mkdir -p /usr/src/app \
-    && adduser -D chrome \
+    && adduser --disabled-password --gecos "" chrome \
     && chown -R chrome:chrome /usr/src/app
 
 # Install Python 3 for youtube-dl
