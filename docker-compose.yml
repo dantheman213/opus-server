@@ -16,4 +16,5 @@ services:
       - 8080:8080
     volumes:
       - ~/opus/media:/opt/media
+    privileged: true
     restart: "always"
