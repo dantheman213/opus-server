@@ -52,11 +52,8 @@ RUN wget -O /tmp/gradle.zip http://services.gradle.org/distributions/gradle-5.4.
 
 # Copy project source to container
 RUN mkdir -p /workspace
-
 WORKDIR /workspace
-
 COPY . .
-
 RUN /opt/gradle/bin/gradle build
 
 # --
