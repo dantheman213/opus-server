@@ -1,12 +1,14 @@
 version: '3'
 services:
   mongo:
+    container_name: opus-db
     image: mongo:4.0.9-xenial
     ports:
       - 27017:27017
     restart: "always"
 
   opus-server:
+    container_name: opus-server
     build: .
     links:
       - mongo
