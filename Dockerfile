@@ -1,5 +1,7 @@
 FROM jrottenberg/ffmpeg:4.0 as prefab
 
+RUN apt-get update && \
+    apt-get upgrade -y
 RUN apt-get install -y wget libasound2 htop
 
 # Install JRE 12
@@ -10,6 +12,11 @@ RUN wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=acc
 RUN dpkg -i jdk-12.0.1_linux-x64_bin.deb
 ENV JAVA_HOME "/usr/lib/jvm/jdk-12.0.1"
 ENV PATH "$PATH:$JAVA_HOME/bin"
+
+# Install Google Chrome for headless usage
+RUN apt-get install -y libappindicator1 fonts-liberation libnspr4 libnss3 libxss1 lsb-release xdg-utils
+RUN wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i chrome.deb
 
 # Install Python 3 for youtube-dl
 RUN apt-get install -y python3 && \
