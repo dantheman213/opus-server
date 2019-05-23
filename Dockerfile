@@ -5,9 +5,9 @@ RUN apt-get update && \
 
 RUN apt-get install -y wget libasound2 htop
 
-# Install JRE 12
 WORKDIR /tmp
 
+# Install JRE 12
 # https://github.com/geerlingguy/ansible-role-java/issues/64
 RUN mkdir -p /usr/share/man/man1
 RUN wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "https://download.oracle.com/otn-pub/java/jdk/12.0.1+12/69cfe15208a647278a19ef0990eea691/jdk-12.0.1_linux-x64_bin.deb"
