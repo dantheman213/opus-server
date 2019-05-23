@@ -20,13 +20,13 @@ ENV PATH "$PATH:$JAVA_HOME/bin"
 RUN apt-get install -y libappindicator1 fonts-liberation libnspr4 libnss3 libxss1 lsb-release xdg-utils
 RUN wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg -i chrome.deb
-ENV CHROME_BIN=/usr/bin/chromium-browser \
-    CHROME_PATH=/usr/lib/chromium/
+ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV CHROME_PATH=/usr/lib/chromium/
 
 # Add a user for Chrome application (required)
-RUN mkdir -p /usr/src/app \
-    && adduser --disabled-password --gecos "" chrome \
-    && chown -R chrome:chrome /usr/src/app
+RUN mkdir -p /usr/src/app && \
+    adduser --disabled-password --gecos "" chrome && \
+    chown -R chrome:chrome /usr/src/app
 
 # Install Python 3 for youtube-dl
 RUN apt-get install -y python3 && \
