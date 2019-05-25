@@ -20,8 +20,11 @@ ENV PATH "$PATH:$JAVA_HOME/bin"
 RUN apt-get install -y libappindicator1 fonts-liberation libnspr4 libnss3 libxss1 lsb-release xdg-utils
 RUN wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg -i chrome.deb
-ENV CHROME_BIN=/usr/bin/chromium-browser
-ENV CHROME_PATH=/usr/lib/chromium/
+ENV CHROME_BIN /usr/bin/chromium-browser
+ENV CHROME_PATH /usr/lib/chromium/
+
+# Install Chrome Driver
+RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip
 
 # Add a user for Chrome application (required)
 RUN mkdir -p /usr/src/app && \
