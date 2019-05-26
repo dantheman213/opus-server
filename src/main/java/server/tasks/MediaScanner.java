@@ -47,9 +47,10 @@ public class MediaScanner {
             for (var file : files) {
                 var song = new SongModel();
                 song.filePath = file.toString();
+                String fileName = Paths.get(song.filePath).getFileName().toString();
                 Metadata metadata = new Metadata();
 
-                System.out.println(String.format("Processing file %s now...", song.filePath));
+                System.out.println(String.format("Processing file %s now...", fileName));
 
                 InputStream input = new FileInputStream(new File(song.filePath));
                 ContentHandler handler = new DefaultHandler();
@@ -66,16 +67,35 @@ public class MediaScanner {
                             song.artist = metadata.get("xmpDM:albumArtist");
                         }
                         if (StringUtils.isEmpty(song.artist)) {
-                            song.artist = metadata.get("xmpDM:contributingArtist");
+                            song.artist = metadata.get("xmpDM:albumArtist");
+                        }
+                        if (StringUtils.isEmpty(song.artist)) {
+                            song.artist = metadata.get("Author");
+                        }
+                        if (StringUtils.isEmpty(song.artist)) {
+                            song.artist = metadata.get("creator");
+                        }
+                        if (StringUtils.isEmpty(song.artist)) {
+                            song.artist = metadata.get("dc:creator");
                         }
                         song.album = metadata.get("xmpDM:album");
                         song.composer = metadata.get("xmpDM:composer");
                         song.genre = metadata.get("xmpDM:genre");
+                        song.duration = Float.parseFloat(metadata.get("xmpDM:duration"));
+                        song.releaseDate = metadata.get("xmpDM:releaseDate");
+                        song.trackNumber = metadata.get("xmpDM:trackNumber");
                         song.title = metadata.get("title");
-                        if (StringUtils.isEmpty(song.title)) {
-                            song.title = FilenameUtils.removeExtension(Paths.get(song.filePath).getFileName().toString());
+                        if  (StringUtils.isEmpty(song.title)) {
+                            song.title = metadata.get("dc:title");
                         }
+                        if (StringUtils.isEmpty(song.title)) {
+                            song.title = FilenameUtils.removeExtension(fileName);
+                        }
+                    } else {
+                        System.out.println(String.format("ERROR: Could not get metadata from %s...!", fileName));
                     }
+                } else {
+                    System.out.println(String.format("Audio extension %s is not currently supported. However, plans are being made to support it. SKIPPING '%s' FOR NOW...", mediaExtension, fileName));
                 }
                 // TODO: Support all audio formats listed above.
 
@@ -88,7 +108,7 @@ public class MediaScanner {
                         song.composer,
                         song.genre,
                         song.title,
-                        song.year,
+                        song.releaseDate,
                         song.bitrate));
 
                 var resultDocuments = songCollection.find(new Document("filePath", song.filePath));
