@@ -3,10 +3,6 @@ package server.services;
 import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.scheduling.annotation.Async;
 import server.lib.Utility;
@@ -14,17 +10,8 @@ import server.models.SpotifyMusicItemModel;
 import server.tasks.MediaScanner;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ImportService {
     @Async
@@ -64,7 +51,6 @@ public class ImportService {
     public void importSpotifyPlaylist(String id) throws Exception {
         String url = "http://spotify-playlist-to-json:3000/playlist/" + id;
 
-        BasicCookieStore cookieStore = null;
         HttpResponse httpResponse = null;
         var httpClient = HttpClients.createDefault();
         var request = new HttpGet(url);
@@ -86,7 +72,10 @@ public class ImportService {
             result = stringBuilder.toString();
             httpResponse.getEntity().getContent().close();
         } catch (Exception ex) {
-            System.out.println(httpResponse.getStatusLine().getStatusCode());
+            if (httpResponse != null) {
+                System.out.println(httpResponse.getStatusLine().getStatusCode());
+            }
+
             ex.printStackTrace();
             return;
         }
