@@ -88,4 +88,21 @@ public class MediaController {
 
         return "ok. in queue.";
     }
+
+    @RequestMapping("/media/import/spotify/playlist/{id}")
+    public String importSpotifyPlaylist(@PathVariable String id) throws Exception {
+        // TODO: Check if songs already exist
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    var service = new ImportService();
+                    service.importSpotifyPlaylist(id);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+
+        return "ok. in queue.";
+    }
 }

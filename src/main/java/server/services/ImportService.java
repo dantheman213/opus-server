@@ -4,6 +4,12 @@ import org.springframework.scheduling.annotation.Async;
 import server.lib.Utility;
 import server.tasks.MediaScanner;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 
 public class ImportService {
@@ -27,5 +33,31 @@ public class ImportService {
 
         var scanner = new MediaScanner();
         scanner.scan();
+    }
+
+    @Async
+    public void importSpotifyPlaylist(String id) throws Exception {
+        URL url = new URL("http://spotify-playlist-to-json:3000/playlist/" + id);
+        var connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(800);
+        connection.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream (
+                connection.getOutputStream());
+        wr.close();
+        InputStream is = connection.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        var response = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+        }
+        rd.close();
+
+        var result = response.toString();
+        connection.disconnect();
+
+        System.out.print(result);
     }
 }

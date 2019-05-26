@@ -19,7 +19,6 @@ public class Database {
             CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                     fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
-
             client = new MongoClient( "mongo", MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
             database = client.getDatabase("opus_db");
             System.out.println("Connected to database successfully!");
