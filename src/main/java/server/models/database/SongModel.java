@@ -11,10 +11,12 @@ public class SongModel {
     public ObjectId _id;
     public String artist;
     public String album;
+    public String trackNumber;
     public String composer;
     public String genre;
     public String title;
-    public int year;
+    public float duration;
+    public String releaseDate;
     public String bitrate;
     public String filePath;
     public Date updatedAt;
