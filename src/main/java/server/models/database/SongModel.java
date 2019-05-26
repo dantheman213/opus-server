@@ -1,4 +1,4 @@
-package server.models;
+package server.models.database;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

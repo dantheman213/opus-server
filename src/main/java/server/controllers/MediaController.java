@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.models.SongModel;
+import server.models.database.SongModel;
 import server.services.ImportService;
 import server.services.SongService;
 import server.tasks.MediaScanner;
@@ -82,7 +82,7 @@ public class MediaController {
         new Thread(new Runnable() {
             public void run() {
                 var service = new ImportService();
-                service.importYoutubeVideo(id);
+                service.importYoutubeVideoById(id);
             }
         }).start();
 

@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import server.lib.Database;
-import server.models.SongModel;
+import server.models.database.SongModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,7 +20,7 @@ import org.apache.tika.parser.Parser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import server.lib.Database;
-import server.models.SongModel;
+import server.models.database.SongModel;
 
 public class MediaScanner {
     private static boolean isRunning = false;
