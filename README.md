@@ -4,10 +4,9 @@ A powerful HTTP audio management and streaming server for your private music lib
 
 ## What you get
 
-* HTTP API for your private music collection
+* Manage your private music collection through an easy-to-use API
 * Import music from your favorite services like YouTube and Spotify 
 * Import music from your hard drive
-* Manage your music through an easy-to-use API
 * Turnkey and trivial setup by using Docker and Compose
 
 ## Prerequisites
