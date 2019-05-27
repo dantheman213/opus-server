@@ -83,7 +83,7 @@ public class ImportService {
         Gson gson = new Gson();
         SpotifyMusicItemModel[] playlist = gson.fromJson(result, SpotifyMusicItemModel[].class);
         for (var song : playlist) {
-            String searchQuery = String.format("%s %s song", song.artist, song.title);
+            String searchQuery = String.format("%s %s song", song.artists.get(0), song.title);
             System.out.println("Search Query: " + searchQuery);
             this.importYoutubeVideoBySearch(searchQuery);
         }

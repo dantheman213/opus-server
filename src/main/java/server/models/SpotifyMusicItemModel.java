@@ -1,7 +1,9 @@
 package server.models;
 
+import java.util.List;
+
 public class SpotifyMusicItemModel {
-    public String artist;
+    public List<String> artists;
     public String album;
     public String title;
 }

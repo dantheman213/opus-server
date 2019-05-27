@@ -2,21 +2,24 @@
 
 A powerful HTTP audio management and streaming server for your private music library.
 
-## Introduction
+## What you get
 
-// TODO
+* HTTP API for your private music collection
+* Import music from your favorite services like YouTube and Spotify 
+* Import music from your hard drive
+* Manage your music through an easy-to-use API
+* Turnkey and trivial setup by using Docker and Compose
 
-## Usage
+## Prerequisites
 
-### Installation
+You **only** need these items to run the application on any supported device:
 
-// TODO
+* [Docker](https://www.docker.com)
+* [Compose](https://docs.docker.com/compose)
 
-### Setup
+## Getting Started
 
-// TODO
-
-### Running Application
+### Build Docker image & run application
 
 ##### Linux / OSX
 
@@ -28,30 +31,51 @@ A powerful HTTP audio management and streaming server for your private music lib
 
 ## Development
 
-// TODO
+Ready to start writing code on top of this project? Please follow these steps:
 
-### Debugging
+### Setup your workstation
 
-#### Download Tomcat 9
+If you plan on writing code please also install these items as well:
 
-https://tomcat.apache.org/download-90.cgi
+* [Java 12 JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html)
+* IDE ([Intellij IDEA](https://www.jetbrains.com/idea), [NetBeans](https://netbeans.org), [Eclipse](https://www.eclipse.org/ide), etc)
+
+#### Debugging
+
+If you are writing code and will need to debug the application, please download this item:
+
+* [Tomcat 9](https://tomcat.apache.org/download-90.cgi)
+
+### Import Project into IDE
+
+Open your IDE, I recommend **Intellij IDEA** but you can use your favorite IDE, and import this project as a **Gradle** project. Allow your IDE to download **Gradle** for you automatically (if you'd like to run locally) and pull in the required sources specified in your `build.gradle`.
+
+### Write Code
+
+If your IDE's Gradle import was successful or you're using a text editor, you may begin writing code.
+
+### Run New Code
+
+Instructions on how to run the application are mentioned earlier. Save your work and follow the same steps above.
+
+### Debug Application Within Docker Container
+
+Need to debug your experimental application code for this project? Here is how I recommend getting started:
+
+#### Download & Install Tomcat 9
+
+The download link is provided above. Decompress the archive and place the Tomcat 9 directory somewhere easily accessible, like your user's home directory.
 
 #### Configure your IDE to listen to debugger
 
-In this example I will be using Intellij IDEA. You can add/edit configuration at the top-right. Select Tomcat Server.
+In this example I will be using Intellij IDEA. You can add/edit configuration by clicking the run profile drop-down and click "Edit Configurations" at the top-right of the IDE. In this dropdown, select Tomcat Server > Remote.
 
 You will want to bind the application to the Tomcat 9 binary you downloaded above. You will also want the debug profile
 in start-up/connection section to be set to port 8000.
 
 #### Start the application in debug mode
 
-##### Linux / OSX
-
     docker-compose -f docker-compose.yml -f docker-compose.debug.yml up --build
-
-##### Windows
-
-    docker-compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.windows.yml up --build
 
 #### Listen from your IDE
 
@@ -61,10 +85,14 @@ Start the debug profile here and it should listen to your breakpoints after the 
 
 // TODO
 
-## Contributing
+## Contribute
 
-// TODO
+Community feedback and teamwork is welcome. If you spot bugs or optimization issues in the code or believe that the README can be improved, feel free to submit a pull request. You're also welcome to submit a new issue as well that fully explains the problem and recommended solution.
 
-## Related Applications
+## References
 
-// TODO
+These are projects that I drew inspiration from or have bundled with this project directly.
+
+* https://github.com/ytdl-org/youtube-dl
+* https://github.com/dantheman213/spotify-playlist-to-json
+* https://github.com/benkaiser/stretto
