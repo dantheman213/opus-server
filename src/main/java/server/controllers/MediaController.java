@@ -68,8 +68,12 @@ public class MediaController {
         // TODO: Check if songs already exist
         new Thread(new Runnable() {
             public void run() {
-                var service = new ImportService();
-                service.importYoutubePlaylist(id);
+               try {
+                   var service = new ImportService();
+                   service.importYoutubePlaylist(id);
+               } catch (Exception ex) {
+                   ex.printStackTrace();
+               }
             }
         }).start();
 

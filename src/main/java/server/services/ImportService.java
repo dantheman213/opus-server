@@ -1,29 +1,56 @@
 package server.services;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.mongodb.util.JSON;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.uima.resource.metadata.Import;
 import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Async;
 import server.lib.Utility;
 import server.tasks.MediaScanner;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.io.File;
 
 public class ImportService {
     @Async
-    public void importYoutubePlaylist(String id) {
+    public void importYoutubePlaylist(String id) throws Exception {
+        var items = new ArrayList<String>();
         var now = new Date().getTime();
-        Utility.launchProcess("youtube-dl -f bestvideo+bestaudio --extract-audio --audio-format mp3 --add-metadata --output '/opt/staging/" + now + "/%(title)s.%(ext)s' --playlist-random https://www.youtube.com/playlist?list=" + id);
-        Utility.launchProcess("mv /opt/staging/" + now + "/*.mp3 /opt/media/.");
-        Utility.launchProcess("rm -rf /opt/staging/" + now);
+        var playlistItemsFilePath = "/tmp/youtubeplaylist_" + now + ".log";
+        Utility.launchProcess("youtube-dl -j --flat-playlist https://www.youtube.com/playlist?list=" + id  + " | jq -r '.id' > " + playlistItemsFilePath);
+        var file = new File(playlistItemsFilePath);
+        if (file.exists()) {
+            var fr = new FileReader(file);
+            var br = new BufferedReader(fr);
+            var line = br.readLine();
+            while (line != null ) {
+                items.add(line);
+                line = br.readLine();
+            }
+            br.close();
+            fr.close();
 
+            for(int i = 0; i < items.size(); i++) {
+                final int ii = i; // for runnable to be happy
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        var service = new ImportService();
+                        service.importYoutubeVideoById(items.get(ii));
+                    }
+                }).start();
+
+                if(i % 8 == 0) {
+                    Thread.sleep(30000);
+                } else {
+                    Thread.sleep(Utility.randomNumber(2500, 3500));
+                }
+            }
+        }
         var scanner = new MediaScanner();
         scanner.scan();
     }

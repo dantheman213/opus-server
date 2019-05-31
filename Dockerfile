@@ -1,6 +1,6 @@
 FROM jrottenberg/ffmpeg:4.0 as prefab
 
-RUN apt-get install -y wget libasound2 htop
+RUN apt-get install -y wget libasound2 htop jq
 
 # Install JRE 12
 WORKDIR /tmp
