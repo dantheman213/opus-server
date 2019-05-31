@@ -22,7 +22,7 @@ You **only** need these items to run the application on any supported device:
 
 ##### Linux / OSX
 
-    docker-compose --build -d
+    docker-compose up --build -d
 
 ##### Windows
 
