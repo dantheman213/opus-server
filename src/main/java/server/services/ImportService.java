@@ -84,9 +84,11 @@ public class ImportService {
         }
 
         var playlist = new JSONObject(result);
-        for (var trackJson : playlist.getJSONArray("tracks")) {
-            var song = new JSONObject(trackJson);
-            String searchQuery = String.format("%s %s", song.getJSONArray("artists").get(0), song.get("title"));
+        var tracks = playlist.getJSONArray("tracks");
+
+        for (int i = 0; i < tracks.length(); i++) {
+            var track = tracks.getJSONObject(i);
+            String searchQuery = String.format("%s %s", track.getJSONArray("artists").getJSONObject(0).getString("name"), track.getJSONObject("song").getString("title"));
             System.out.println("Search Query: " + searchQuery);
 
             new Thread(new Runnable() {
@@ -95,7 +97,7 @@ public class ImportService {
                     service.importYoutubeVideoBySearch(searchQuery);
                 }
             }).start();
-            Thread.sleep(5000);
+            Thread.sleep(Utility.randomNumber(2000, 3500));
         }
     }
 }
