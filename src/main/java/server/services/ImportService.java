@@ -44,7 +44,7 @@ public class ImportService {
                     }
                 }).start();
 
-                if(i % 8 == 0) {
+                if(i % 8 == 0 && i > 0) {
                     Thread.sleep(30000);
                 } else {
                     Thread.sleep(Utility.randomNumber(2500, 3500));
@@ -124,7 +124,12 @@ public class ImportService {
                     service.importYoutubeVideoBySearch(searchQuery);
                 }
             }).start();
-            Thread.sleep(Utility.randomNumber(2000, 3500));
+
+            if(i % 8 == 0 && i > 0) {
+                Thread.sleep(30000);
+            } else {
+                Thread.sleep(Utility.randomNumber(2500, 3500));
+            }
         }
     }
 }
