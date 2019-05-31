@@ -1,12 +1,15 @@
 package server.services;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mongodb.util.JSON;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.uima.resource.metadata.Import;
+import org.json.JSONObject;
 import org.springframework.scheduling.annotation.Async;
 import server.lib.Utility;
-import server.models.SpotifyMusicItemModel;
 import server.tasks.MediaScanner;
 
 import java.io.BufferedReader;
@@ -80,12 +83,19 @@ public class ImportService {
             return;
         }
 
-        Gson gson = new Gson();
-        SpotifyMusicItemModel[] playlist = gson.fromJson(result, SpotifyMusicItemModel[].class);
-        for (var song : playlist) {
-            String searchQuery = String.format("%s %s song", song.artists.get(0), song.title);
+        var playlist = new JSONObject(result);
+        for (var trackJson : playlist.getJSONArray("tracks")) {
+            var song = new JSONObject(trackJson);
+            String searchQuery = String.format("%s %s", song.getJSONArray("artists").get(0), song.get("title"));
             System.out.println("Search Query: " + searchQuery);
-            this.importYoutubeVideoBySearch(searchQuery);
+
+            new Thread(new Runnable() {
+                public void run() {
+                    var service = new ImportService();
+                    service.importYoutubeVideoBySearch(searchQuery);
+                }
+            }).start();
+            Thread.sleep(5000);
         }
     }
 }
