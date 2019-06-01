@@ -9,7 +9,7 @@ public class LibraryController {
 
     @RequestMapping("/library/refresh")
     public String refresh() throws Exception {
-        MediaScanner scanner = new MediaScanner();
+        var scanner = new MediaScanner();
         scanner.scan();
 
         return "ok. in queue.";
