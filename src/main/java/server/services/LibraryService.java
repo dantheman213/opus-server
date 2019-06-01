@@ -11,7 +11,7 @@ import org.bson.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import server.lib.Database;
-import server.models.database.SongModel;
+import server.models.SongModel;
 
 import java.io.File;
 import java.io.FileInputStream;
