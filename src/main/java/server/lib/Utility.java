@@ -1,8 +1,12 @@
 package server.lib;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 
 public class Utility {
     public static void launchProcess(String cmd) {
@@ -45,6 +49,16 @@ public class Utility {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static Collection getAllMediaFilesFromLibrary() {
+        Collection files = FileUtils.listFiles(
+                new File("/opt/media"),
+                new String[] { "wav", "mp3", "ogg", "wma", "aif", "aiff", "aifc", "aac", "flac", "alac" },
+                true
+        );
+
+        return files;
     }
 
     public static int randomNumber(int min, int max) {
