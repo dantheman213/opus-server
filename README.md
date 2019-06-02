@@ -28,6 +28,13 @@ You **only** need these items to run the application on any supported device:
 
     docker-compose -f docker-compose.yml -f docker-compose.windows.yml up --build -d
 
+## API Reference
+
+Swagger has been integrated to make it easy to navigate the server's APIs. You may view the APIs for the server by 
+building the project and visiting the following URL:
+
+http://localhost:8080/swagger-ui.htm
+
 ## Development
 
 Ready to start writing code on top of this project? Please follow these steps:
