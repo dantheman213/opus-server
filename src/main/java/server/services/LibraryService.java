@@ -1,13 +1,10 @@
 package server.services;
 
 import com.mongodb.client.MongoCollection;
+import com.mpatric.mp3agic.Mp3File;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.mp3.Mp3Parser;
 import org.bson.Document;
+import org.springframework.util.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import server.lib.Database;
@@ -30,7 +27,6 @@ public class LibraryService {
         var song = new SongModel();
         song.filePath = filePath;
         String fileName = Paths.get(song.filePath).getFileName().toString();
-        Metadata metadata = new Metadata();
 
         System.out.println(String.format("Processing file %s now...", fileName));
 
@@ -39,37 +35,19 @@ public class LibraryService {
 
         String mediaExtension = FilenameUtils.getExtension(song.filePath);
         if (mediaExtension.equals("mp3")) {
-            Parser parser = new Mp3Parser();
-            ParseContext parseCtx = new ParseContext();
-            parser.parse(input, handler, metadata, parseCtx);
+            var file = new Mp3File(song.filePath);
+            if (file.hasId3v2Tag()) {
+                var tags = file.getId3v2Tag();
 
-            if (metadata != null) {
-                song.artist = metadata.get("xmpDM:artist");
-                if (StringUtils.isEmpty(song.artist)) {
-                    song.artist = metadata.get("xmpDM:albumArtist");
-                }
-                if (StringUtils.isEmpty(song.artist)) {
-                    song.artist = metadata.get("xmpDM:albumArtist");
-                }
-                if (StringUtils.isEmpty(song.artist)) {
-                    song.artist = metadata.get("Author");
-                }
-                if (StringUtils.isEmpty(song.artist)) {
-                    song.artist = metadata.get("creator");
-                }
-                if (StringUtils.isEmpty(song.artist)) {
-                    song.artist = metadata.get("dc:creator");
-                }
-                song.album = metadata.get("xmpDM:album");
-                song.composer = metadata.get("xmpDM:composer");
-                song.genre = metadata.get("xmpDM:genre");
-                song.duration = Float.parseFloat(metadata.get("xmpDM:duration"));
-                song.releaseDate = metadata.get("xmpDM:releaseDate");
-                song.trackNumber = metadata.get("xmpDM:trackNumber");
-                song.title = metadata.get("title");
-                if  (StringUtils.isEmpty(song.title)) {
-                    song.title = metadata.get("dc:title");
-                }
+                song.artist = tags.getArtist();
+                song.album = tags.getAlbum();
+                song.composer = tags.getComposer();
+                song.genre = tags.getGenreDescription();
+                song.duration = file.getLengthInSeconds();
+                song.bitrate = Integer.toString(file.getBitrate());
+                song.releaseDate = tags.getYear();
+                song.trackNumber = tags.getTrack();
+                song.title = tags.getTitle();
                 if (StringUtils.isEmpty(song.title)) {
                     song.title = FilenameUtils.removeExtension(fileName);
                 }
