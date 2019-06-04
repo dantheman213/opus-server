@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import server.lib.Database;
-import server.models.SongModel;
+import server.models.domain.SongDomainModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongService {
-    private MongoCollection<SongModel> songCollection;
+    private MongoCollection<SongDomainModel> songCollection;
 
     public SongService() {
-        songCollection = Database.database.getCollection("songs", SongModel.class);
+        songCollection = Database.database.getCollection("songs", SongDomainModel.class);
     }
 
-    public List<SongModel> getAllSongs() {
-        var results = new ArrayList<SongModel>();
+    public List<SongDomainModel> getAllSongs() {
+        var results = new ArrayList<SongDomainModel>();
         for(var song : songCollection.find()) {
             results.add(song);
         }
@@ -29,7 +29,7 @@ public class SongService {
         return results;
     }
 
-    public SongModel getSongById(String id) {
+    public SongDomainModel getSongById(String id) {
         return songCollection.find(new Document("_id", new ObjectId(id))).first();
     }
 

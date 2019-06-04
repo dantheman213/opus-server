@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import server.lib.Database;
-import server.models.SongModel;
+import server.models.domain.SongDomainModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,14 +17,14 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 public class LibraryService {
-    private MongoCollection<SongModel> songCollection;
+    private MongoCollection<SongDomainModel> songCollection;
 
     public LibraryService() {
-        songCollection = Database.database.getCollection("songs", SongModel.class);
+        songCollection = Database.database.getCollection("songs", SongDomainModel.class);
     }
 
     public void addItemToLibrary(String filePath) throws Exception {
-        var song = new SongModel();
+        var song = new SongDomainModel();
         song.filePath = filePath;
         String fileName = Paths.get(song.filePath).getFileName().toString();
 
@@ -74,12 +74,12 @@ public class LibraryService {
         var resultDocuments = songCollection.find(new Document("filePath", song.filePath));
         if(resultDocuments.first() == null) {
             songCollection.insertOne(song);
-            System.out.println(String.format("Song %s has been added to database!", song.title));
+            System.out.println(String.format("Song %s has been added to domain!", song.title));
         } else {
             var existingSong = resultDocuments.first();
             existingSong.updatedAt = new Date();
 
-            // TODO: Check for metadata updates and if so update database with new values.
+            // TODO: Check for metadata updates and if so update domain with new values.
 
             songCollection.replaceOne(new Document("filePath", song.filePath), existingSong);
             System.out.println(String.format("Song %s has been skipped!", song.title));

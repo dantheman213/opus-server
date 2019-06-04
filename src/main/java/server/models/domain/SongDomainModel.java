@@ -1,4 +1,4 @@
-package server.models;
+package server.models.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 
 import java.util.Date;
 
-public class SongModel {
+public class SongDomainModel {
     @JsonSerialize(using = ToStringSerializer.class)
     public ObjectId _id;
     public String artist;

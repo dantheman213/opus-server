@@ -1,6 +1,7 @@
 package server.lib;
 
 import org.apache.commons.io.FileUtils;
+import org.javatuples.Pair;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,5 +64,11 @@ public class Utility {
 
     public static int randomNumber(int min, int max) {
         return (int)Math.random() * ((max - min) + 1) + min;
+    }
+
+    public static Pair<String, String> generatePasswordHashAndSalt(String password) throws Exception {
+        String salt = "", hash = "";
+        // TODO
+        return new Pair<String, String>(new String(salt), new String(hash));
     }
 }

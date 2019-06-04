@@ -22,7 +22,7 @@ public class MediaScanner {
                 service.addItemToLibrary(file.toString());
             }
 
-            // TODO: Use updatedAt field to see which items no longer exist and remove them from database.
+            // TODO: Use updatedAt field to see which items no longer exist and remove them from domain.
         } catch (Exception ex) {
             ex.printStackTrace();
         }

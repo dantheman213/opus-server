@@ -15,13 +15,13 @@ public class Database {
 
     public Database() {
         try {
-            System.out.println("Attempting to connect to database...");
+            System.out.println("Attempting to connect to domain...");
             CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                     fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
             client = new MongoClient( "mongo", MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
             database = client.getDatabase("opus_db");
-            System.out.println("Connected to database successfully!");
+            System.out.println("Connected to domain successfully!");
         } catch(Exception ex) {
             ex.printStackTrace();
             System.exit(1);

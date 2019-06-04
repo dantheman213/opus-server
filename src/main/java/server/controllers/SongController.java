@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import server.models.SongModel;
+import server.models.domain.SongDomainModel;
 import server.services.SongService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public class SongController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public List<SongModel> getAllSongs() throws Exception {
+    public List<SongDomainModel> getAllSongs() throws Exception {
         var service = new SongService();
         return service.getAllSongs();
     }
