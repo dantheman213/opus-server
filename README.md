@@ -2,21 +2,21 @@
 
 A powerful HTTP audio management and streaming server for your private music library.
 
-## What you get
+## Features
 
 * Manage your private music collection through an easy-to-use API
 * Import music from your favorite services like YouTube and Spotify 
 * Import music from your hard drive
 * Turnkey and trivial setup by using Docker and Compose
 
-## Prerequisites
+## Getting Started
+
+### Prerequisites
 
 You **only** need these items to run the application on any supported device:
 
 * [Docker](https://www.docker.com)
 * [Compose](https://docs.docker.com/compose)
-
-## Getting Started
 
 ### Build Docker image & run application
 
