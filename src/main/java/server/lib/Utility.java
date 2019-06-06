@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.Collection;
 
 public class Utility {
@@ -67,8 +70,34 @@ public class Utility {
     }
 
     public static Pair<String, String> generatePasswordHashAndSalt(String password) throws Exception {
-        String salt = "", hash = "";
-        // TODO
-        return new Pair<String, String>(new String(salt), new String(hash));
+        var salt = generateSalt();
+        var calculatedHash = calculateHash(password, new String(salt));
+        return new Pair<String, String>(new String(salt), new String(calculatedHash));
+    }
+
+    public static boolean validatePassword(String password, String hash, String salt) throws Exception {
+        // calculate hash (and use salt)
+        var calculatedHash = calculateHash(password, salt);
+        return calculatedHash.equals(hash);
+    }
+
+    private static String generateSalt() throws Exception {
+        var random = new SecureRandom();
+        var salt = new byte[16];
+        random.nextBytes(salt);
+        return new String(salt);
+    }
+
+    private static String calculateHash(String password, String salt) throws Exception {
+        var md = MessageDigest.getInstance("SHA-512");
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+        var bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        var sb = new StringBuilder();
+
+        for(int i=0; i< bytes.length ;i++){
+            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
     }
 }
