@@ -101,4 +101,3 @@ These are projects that I drew inspiration from or have bundled with this projec
 
 * https://github.com/ytdl-org/youtube-dl
 * https://github.com/dantheman213/spotify-playlist-to-json
-* https://github.com/benkaiser/stretto
